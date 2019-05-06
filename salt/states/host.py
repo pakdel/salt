@@ -86,7 +86,7 @@ def present(name, ip, clean=False):  # pylint: disable=C0103
     '''
     ret = {'name': name,
            'changes': {},
-           'result': None if __opts__['test'] else True,
+           'result': True,
            'comment': ''}
 
     if not isinstance(ip, list):
@@ -138,6 +138,7 @@ def present(name, ip, clean=False):  # pylint: disable=C0103
             comments.append(
                 'Host {0} ({1}) would be added'.format(name, addr)
             )
+            ret['result'] = None
         else:
             if __salt__['hosts.add_host'](addr, name):
                 comments.append('Added host {0} ({1})'.format(name, addr))
@@ -152,6 +153,7 @@ def present(name, ip, clean=False):  # pylint: disable=C0103
             comments.append(
                 'Host {0} ({1}) would be removed'.format(name, addr)
             )
+            ret['result'] = None
         else:
             if __salt__['hosts.rm_host'](addr, name):
                 comments.append('Removed host {0} ({1})'.format(name, addr))
